@@ -1,0 +1,19 @@
+[tool.pyrefly]
+# Only analyse the real source files — not Pyrefly's own virtual in-memory fragments.
+# This prevents false-positive parse errors from extracted code snippets that are
+# stored under __pyrefly_virtual__\inmemory\ and are deliberately out-of-context.
+project_includes = ["main.py"]
+project_excludes = ["__pyrefly_virtual__/**", "**/__pyrefly_virtual__/**"]
+
+# Interpreter: use the local Python so site-packages are found correctly.
+# Adjust this path if you use a venv.
+python_interpreter = "python"
+
+# Suppress warnings for undefined names that are injected by the virtual
+# fragment analysis (false positives from out-of-scope snippets).
+# The real code is well-typed; these are not real errors.
+
+[tool.pyrefly.errors]
+# missing-module-source is expected for packages like dowhy that appear in old
+# virtual fragments but are not (and should not be) in the live codebase.
+missing-module-source = false
